@@ -1,6 +1,7 @@
 # managerstudent_getx
 
-A new Flutter application.
+![image](https://user-images.githubusercontent.com/64190431/113656414-0f574280-96c6-11eb-8756-a6be546fc4b8.png)
+
 
 ## Getting Started
 
