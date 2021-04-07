@@ -1,181 +1,311 @@
-
-import 'dart:collection';
+import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:managerstudent_getx/Screen/ListView.dart';
-import 'package:managerstudent_getx/controllers/Data.dart';
 
 class update extends StatefulWidget {
   String keydelete;
+
   update(this.keydelete);
   @override
-
   _updateState createState() => _updateState(keydelete);
 }
 
 class _updateState extends State<update> {
   _updateState(this.key);
+  bool pic= true;
+  final picker = ImagePicker();
+  File image2;
   String key;
-  String name, tuoi, phone, address, diem;
+  String urlImage2;
+  String urlimage, name, tuoi, phone, address, diem;
   String name2, tuoi2, phone2, address2, diem2;
-
   final GlobalKey<FormState> keyform = GlobalKey<FormState>();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    DatabaseReference reference =FirebaseDatabase.instance.reference().child("users").child(key);
+    DatabaseReference reference =
+        FirebaseDatabase.instance.reference().child("users").child(key);
     reference.once().then((DataSnapshot dataSnapshot) {
-     // var keys = dataSnapshot.value.keys;
+      // var keys = dataSnapshot.value.keys;
       var values = dataSnapshot.value;
-       {
+      {
         print("Key : " + key);
-
-          name= values["name"];
-          tuoi= values["tuoi"];
-          phone= values["phone"];
-          address=values["address"];
-         key;
-          // values[key]["diem"],
+        urlimage = values["image"];
+        name = values["name"];
+        tuoi = values["tuoi"];
+        phone = values["phone"];
+        address = values["address"];
+        diem = values["diem"];
+        key;
+        // values[key]["diem"],
 
         //  print(data.key);
       }
+
       setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       appBar: AppBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-          child: Form(
-            key: keyform,
-            child: Column(
-              children: [
-
-                TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Nhap name';
-                    } else {
-                      name2 = value;
-                    }
-                  },
-                  style: TextStyle(fontSize: 20,color: Colors.amber),
-                  decoration: InputDecoration(
-                    labelText: name,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: Colors.red,width: 2),
+        child: Column(
+          children: [
+            Container(
+                child: urlimage != null
+                    ? Container(
+                        child: image2 == null
+                            ? Row(
+                                children: [
+                                  Image.network(
+                                    urlimage,
+                                    fit: BoxFit.contain,
+                                    height: 200,
+                                    width: 200,
+                                  ),
+                                  FlatButton(
+                                      onPressed: () {
+                                        _showDialog();
+                                        pic=false;
+                                      },
+                                      child: Icon(
+                                        Icons.add_a_photo,
+                                        color: Colors.black,
+                                        size: 50,
+                                      ))
+                                ],
+                              )
+                            : Image.file(
+                                image2,
+                                height: 200,
+                                width: 200,
+                              ),
+                      )
+                    : null),
+            Form(
+              key: keyform,
+              child: Column(
+                children: [
+                  TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        name2 = name;
+                      } else {
+                        name2 = value;
+                      }
+                    },
+                    style: TextStyle(fontSize: 20, color: Colors.amber),
+                    decoration: InputDecoration(
+                      labelText: name,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.red, width: 2),
+                      ),
                     ),
                   ),
-                ),
-
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Nhap tuoi';
-                    } else {
-                      tuoi2 = value;
-                    }
-                  },
-                  style: TextStyle(fontSize: 20,color: Colors.amber),
-                  decoration: InputDecoration(
-                    labelText: tuoi,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: Colors.red,width: 2),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        tuoi2 = tuoi;
+                      } else {
+                        tuoi2 = value;
+                      }
+                    },
+                    style: TextStyle(fontSize: 20, color: Colors.amber),
+                    decoration: InputDecoration(
+                      labelText: tuoi,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.red, width: 2),
+                      ),
                     ),
                   ),
-                ),
-
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Nhap sdt';
-                    } else {
-                      phone2 = value;
-                    }
-                  },
-                  style: TextStyle(fontSize: 20,color: Colors.amber),
-                  decoration: InputDecoration(
-                    labelText: phone,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: Colors.red,width: 2),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        phone2 = phone;
+                      } else {
+                        phone2 = value;
+                      }
+                    },
+                    style: TextStyle(fontSize: 20, color: Colors.amber),
+                    decoration: InputDecoration(
+                      labelText: phone,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.red, width: 2),
+                      ),
                     ),
                   ),
-                ),
-
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-
-                      address = value;
-                     return 'Nhap dia chi';
-                    } else {
-                      address2 = value;
-                    }
-                  },
-                  style: TextStyle(fontSize: 20,color: Colors.amber),
-                  decoration: InputDecoration(
-                    labelText: address,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: Colors.red,width: 2),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        // address = value;
+                        address2 = address;
+                      } else {
+                        address2 = value;
+                      }
+                    },
+                    style: TextStyle(fontSize: 20, color: Colors.amber),
+                    decoration: InputDecoration(
+                      labelText: address,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.red, width: 2),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                RaisedButton(
-                  onPressed: update2,
-                  child: Center(child: Text("Cap nhat")),
-                  color: Colors.cyanAccent,
-                ),
-
-              ],
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        // diem = value;
+                        diem2 = diem;
+                      } else {
+                        diem2 = value;
+                      }
+                    },
+                    style: TextStyle(fontSize: 20, color: Colors.amber),
+                    decoration: InputDecoration(
+                      labelText: diem,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.red, width: 2),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      update2();
+                    },
+                    child: Center(child: Text("Cap nhat")),
+                    color: Colors.cyanAccent,
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
+      ),
     );
   }
-  Future<void> update2() async{
+
+  Future<void> update2() async {
+    if (keyform.currentState.validate()) {
+      //print(urlImage2);
+     // print(urlImage2 = urlimage);
 
 
-     if (keyform.currentState.validate()) {
-      DatabaseReference databaseReference = FirebaseDatabase.instance
-          .reference().child("users");
+      DatabaseReference databaseReference =
+          FirebaseDatabase.instance.reference().child("users");
+      if(pic==false){
+      Reference _refrence = FirebaseStorage.instance.ref().child("users").child(
+          new DateTime.now().microsecondsSinceEpoch.toString() +
+              "." +
+              image2.path);
+      UploadTask uploadTask = _refrence.putFile(image2);
+      var imageUrl = await (await uploadTask).ref.getDownloadURL();
+      urlImage2 = imageUrl.toString();}
+        else{
+      urlImage2=urlimage;}
+
+
+
       Map<String, String> map = {
+        'image': urlImage2,
         'name': name2,
-        'tuoi':  tuoi2,
+        'tuoi': tuoi2,
         'phone': phone2,
-        "address": address2
+        "address": address2,
+        'diem': diem2,
       };
 
-      databaseReference.child(key).update(map).then((_){
-       Navigator.push(context, MaterialPageRoute(builder: (context) => Viewlist(),));
+      databaseReference.child(key).update(map).then((_) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Viewlist(),
+            ));
       });
-   }
+    }
   }
 
+  Future<void> _showDialog() {
+    return showDialog(
+        context: context,
+        builder: (Buildcontext) {
+          return AlertDialog(
+              title: Text("Chọn ảnh"),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  GestureDetector(
+                    child: Text("Mở tệp"),
+                    onTap: () {
+                      openGallary();
+                    },
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  GestureDetector(
+                    child: Text("Camera"),
+                    onTap: () {
+                      opencamera();
+                    },
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
+
+  Future<void> opencamera() async {
+    var picture = await picker.getImage(source: ImageSource.camera);
+    this.setState(() {
+      if (picture != null) {
+        image2 = File(picture.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future<void> openGallary() async {
+    var picture = await picker.getImage(source: ImageSource.gallery);
+    this.setState(() {
+      if (picture != null) {
+        image2 = File(picture.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+}

@@ -2,6 +2,10 @@
     package="com.example.managerstudent_getx">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" android:required="true" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" android:required="true" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:required="true" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:required="true" />
     <application
         android:label="managerstudent_getx"
         android:icon="@mipmap/ic_launcher">

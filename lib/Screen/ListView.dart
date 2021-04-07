@@ -12,7 +12,7 @@ class Viewlist extends StatefulWidget {
 
 class _ViewlistState extends State<Viewlist> {
   List<Data> dataList = [];
-
+TextEditingController _search = TextEditingController();
 
   // final DatabaseReference reference =
   //     FirebaseDatabase.instance.reference().child("users");
@@ -29,12 +29,13 @@ class _ViewlistState extends State<Viewlist> {
       for (var key in keys) {
         print("Key : " + key);
         Data data = new Data(
+          values[key]["image"],
           values[key]["name"],
           values[key]["tuoi"],
           values[key]["phone"],
           values[key]["address"],
+          values[key]["diem"],
           key,
-          // values[key]["diem"],
         );
         dataList.add(data);
       //  print(data.key);
@@ -47,49 +48,83 @@ class _ViewlistState extends State<Viewlist> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title:Text("Xem thông tin sinh viên"),
+          title: TextField(
+            controller: _search,
+            decoration: InputDecoration(
+              hintText: "Search...",
+              helperStyle: TextStyle(color: Colors.white),
+              labelText: "Search",
+              labelStyle: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+            onChanged: (text){
+              search(text);
+            },
+          ),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+
+                }),
+          ],
         ),
-        body: dataList.length == 0
-            ? Container(
-               height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
+        body: Container(
+         // height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   colors: [
-                    Colors.deepPurple,
-                    Colors.lightGreen,
+                    Colors.lightBlueAccent,
+                    Colors.deepOrangeAccent,
                   ]
-                )
-              ),
-              child: Center(
-                  child: Text("Loading..."),
+              )
+          ),
+          child: dataList.length == 0
+              ? Container(
+                 height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      Colors.deepPurple,
+                      Colors.lightGreen,
+                    ]
+                  )
                 ),
-            )
-            : ListView.builder(
-                itemCount: dataList.length,
-                itemBuilder: (_, index) {
-                  return CarUI(dataList[index].name, dataList[index].tuoi,
-                      dataList[index].phone, dataList[index].address,dataList[index].keydelete);
+                child: Center(
+                    child: Text("Loading..."),
+                  ),
+              )
+              : Container(
+            padding: const EdgeInsets.all(10),
+                child: ListView.builder(
+                    itemCount: dataList.length,
+                    itemBuilder: (_, index) {
+                      return CarUI(dataList[index].image,dataList[index].name, dataList[index].tuoi,
+                          dataList[index].phone, dataList[index].address, dataList[index].diem,dataList[index].keydelete);
 
-                }));
+                    }),
+              ),
+        ));
   }
 
-  Widget CarUI(String name, String tuoi, String phone, String address, String keydelete) {
+  Widget CarUI(String image, String name, String tuoi, String phone, String address,String diem, String keydelete) {
     return Card(
       child: Container(
-        margin: EdgeInsets.all(5),
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.deepPurple,width: 2),
+          borderRadius: BorderRadius.circular(0),
+          border: Border.all(color: Colors.yellow,width: 3),
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
               Colors.lightGreenAccent,
-              Colors.amberAccent,
+              Colors.white,
             ]
           )
         ),
@@ -99,7 +134,12 @@ class _ViewlistState extends State<Viewlist> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
+                Image.network(
+                  image,
+                  fit: BoxFit.contain,
+                  height: 200,
+                  width: 200,
+                ),
                 Text("Tên:"+name),
                 SizedBox(width: 10,),
                 Text("Tuổi: "+tuoi),
@@ -107,6 +147,10 @@ class _ViewlistState extends State<Viewlist> {
                 Text("Số điện thoại: "+phone),
                 SizedBox(width: 10,),
                 Text("Địa chỉ: "+address),
+
+                SizedBox(width: 10,),
+                Text("Điểm trung bình: "+diem),
+               // Text("Địa chỉ: "+address),
 
               ],
             ),
@@ -154,15 +198,29 @@ class _ViewlistState extends State<Viewlist> {
       ),
     );
   }
- // void delete(){
- //
- //  setState(() {
- //  reference
- //      .child(key)
- //      .remove()
- //      .then((value) => Navigator.pop(context));
- //  });
- //
- //   }
+  void search(String text) {
+    DatabaseReference searchref =
+    FirebaseDatabase.instance.reference().child("users");
+    searchref.once().then((DataSnapshot dataSnapshot) {
+      dataList.clear();
+      var keys = dataSnapshot.value.keys;
+      var values = dataSnapshot.value;
+      for (var key in keys) {
+        Data data = new Data(
+          values[key]["image"],
+          values[key]["name"],
+          values[key]["tuoi"],
+          values[key]["phone"],
+          values[key]["address"],
+          values[key]["diem"],
+          key,
+        );
+
+        if (data.name.contains(text)) {
+         dataList.add(data);
+        }
+      }
+    });
+  }
 }
 

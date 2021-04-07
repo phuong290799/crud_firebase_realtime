@@ -14,12 +14,35 @@ class _HompageState extends State<Hompage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+
+          Center(
+              child: Row(
+
+                children: [
+                 Icon(Icons.account_box_outlined),
+                  Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context, MaterialPageRoute(builder: (context) => Login()));
+                  },
+                  child: Text("Thoát",style: TextStyle(fontSize: 16,color: Colors.white),),
+            ),
+          ),
+                ],
+              ))
+        ],
         backgroundColor: Colors.lightBlueAccent,
-        title: Container(child: Text("Lựa chọn",style: TextStyle(fontSize: 22,color: Colors.black),),
+        title: Container(
+          child: Text(
+            "Home",
+            style: TextStyle(fontSize: 22, color: Colors.white),
+          ),
         ),
       ),
-      drawer: new Drawer(
-      ),
+      drawer: new Drawer(),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -40,14 +63,45 @@ class _HompageState extends State<Hompage> {
                 SizedBox(
                   height: 15,
                 ),
-                Stack(children: [
-                  Container(
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Colors.lightGreenAccent,
+                          Colors.yellow,
+                        ]),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.yellow, width: 5),
+                  ),
+                  height: 140,
+                  child: TextButton(
+                    child: Center(
+                      child: Text(
+                        "Xem danh sách sinh viên",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Viewlist()));
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topRight,
                           end: Alignment.bottomLeft,
                           colors: [
-                            Colors.lightGreenAccent,
+                            Colors.greenAccent,
                             Colors.yellow,
                           ]),
                       borderRadius: BorderRadius.circular(20),
@@ -57,7 +111,7 @@ class _HompageState extends State<Hompage> {
                     child: TextButton(
                       child: Center(
                         child: Text(
-                          "Xem danh sách sinh viên",
+                          "Thêm sinh viên",
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -65,83 +119,17 @@ class _HompageState extends State<Hompage> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Viewlist()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Add()));
                       },
-                    ),
-                  ),
-
-                ]),
+                    )),
                 SizedBox(
                   height: 15,
                 ),
-                Stack(children: [
-                  Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [
-                              Colors.greenAccent,
-                              Colors.yellow,
-                            ]),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.yellow, width: 5),
-                      ),
-                      height: 140,
-                      child:TextButton(
-                        child: Center(
-                          child: Text(
-                            "Thêm sinh viên",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Add()));
-                        },
-                      )),
 
-                ]),
                 SizedBox(
-                  height: 15,
+                  height: 100,
                 ),
-                Stack(children: [
-                  Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [
-                              Colors.lightGreen,
-                              Colors.yellow,
-                            ]),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.yellow, width: 5),
-                      ),
-                      height: 140,
-                      child: TextButton(
-                        child: Center(
-                          child: Text(
-                            "Đăng xuất",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) => Login()));
-                        },
-                      )),
-
-                ]),
               ],
             ),
           ),
