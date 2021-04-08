@@ -14,35 +14,84 @@ class _HompageState extends State<Hompage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.purpleAccent,
         actions: [
-
           Center(
               child: Row(
-
-                children: [
-                 Icon(Icons.account_box_outlined),
-                  Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: TextButton(
+            children: [
+              Icon(Icons.account_box_outlined),
+              Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: TextButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                        context, MaterialPageRoute(builder: (context) => Login()));
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Login()));
                   },
-                  child: Text("Thoát",style: TextStyle(fontSize: 16,color: Colors.white),),
-            ),
-          ),
-                ],
-              ))
+                  child: Text(
+                    "Thoát",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ))
         ],
-        backgroundColor: Colors.lightBlueAccent,
+
         title: Container(
           child: Text(
             "Home",
             style: TextStyle(fontSize: 22, color: Colors.white),
           ),
         ),
+
       ),
-      drawer: new Drawer(),
+
+      drawer: new Drawer(
+        child: Container(
+            child: ListView(
+          children: [
+            DrawerHeader(
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 50),
+                    child: Icon(Icons.account_circle_outlined,size: 30,),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 0),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) => Login()));
+                      },
+                      child: Text(
+                        "Chào bạn",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              decoration: BoxDecoration(color: Colors.lightBlue),
+            ),
+            ListTile(
+              title: Text("Trang chủ",
+            style: TextStyle(fontSize: 20, color: Colors.black)),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Viewlist()));
+              },
+            ),
+            ListTile(
+              title: Text("Đăng xuất",style: TextStyle(fontSize: 20, color: Colors.black)),
+              onTap: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => Login()));
+              },
+            ),
+          ],
+        )),
+      ),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -52,7 +101,7 @@ class _HompageState extends State<Hompage> {
                 end: Alignment.bottomLeft,
                 colors: [
                   Colors.blue,
-                  Colors.yellow,
+                  Colors.white,
                 ]),
           ),
           padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
@@ -73,9 +122,9 @@ class _HompageState extends State<Hompage> {
                           Colors.yellow,
                         ]),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.yellow, width: 5),
+                    border: Border.all(color: Colors.yellow, width: 1),
                   ),
-                  height: 140,
+                  height: 100,
                   child: TextButton(
                     child: Center(
                       child: Text(
@@ -105,9 +154,9 @@ class _HompageState extends State<Hompage> {
                             Colors.yellow,
                           ]),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.yellow, width: 5),
+                      border: Border.all(color: Colors.yellow, width: 1),
                     ),
-                    height: 140,
+                    height: 100,
                     child: TextButton(
                       child: Center(
                         child: Text(
@@ -126,7 +175,6 @@ class _HompageState extends State<Hompage> {
                 SizedBox(
                   height: 15,
                 ),
-
                 SizedBox(
                   height: 100,
                 ),

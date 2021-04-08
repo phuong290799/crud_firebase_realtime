@@ -12,8 +12,9 @@ class Viewlist extends StatefulWidget {
 
 class _ViewlistState extends State<Viewlist> {
   List<Data> dataList = [];
-TextEditingController _search = TextEditingController();
-
+  TextEditingController _search = TextEditingController();
+  bool del = false;
+  String keyy;
   // final DatabaseReference reference =
   //     FirebaseDatabase.instance.reference().child("users");
 
@@ -21,11 +22,12 @@ TextEditingController _search = TextEditingController();
   void initState() {
     // TODO: implement initState
     super.initState();
-    DatabaseReference reference =FirebaseDatabase.instance.reference().child("users");
+    DatabaseReference reference =
+        FirebaseDatabase.instance.reference().child("users");
     reference.once().then((DataSnapshot dataSnapshot) {
       dataList.clear();
       var keys = dataSnapshot.value.keys;
-     var values = dataSnapshot.value;
+      var values = dataSnapshot.value;
       for (var key in keys) {
         print("Key : " + key);
         Data data = new Data(
@@ -38,7 +40,7 @@ TextEditingController _search = TextEditingController();
           key,
         );
         dataList.add(data);
-      //  print(data.key);
+        //  print(data.key);
       }
       setState(() {});
     });
@@ -48,6 +50,7 @@ TextEditingController _search = TextEditingController();
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.purpleAccent,
           title: TextField(
             controller: _search,
             decoration: InputDecoration(
@@ -56,151 +59,155 @@ TextEditingController _search = TextEditingController();
               labelText: "Search",
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),
             ),
-            onChanged: (text){
+            onChanged: (text) {
               search(text);
             },
           ),
           actions: [
-            IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-
-                }),
+            IconButton(icon: Icon(Icons.search), onPressed: () {}),
           ],
         ),
         body: Container(
-         // height: MediaQuery.of(context).size.height,
+          // height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   colors: [
-                    Colors.lightBlueAccent,
-                    Colors.deepOrangeAccent,
-                  ]
-              )
-          ),
+                Colors.lightBlueAccent,
+                Colors.white,
+              ])),
           child: dataList.length == 0
               ? Container(
-                 height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      Colors.deepPurple,
-                      Colors.lightGreen,
-                    ]
-                  )
-                ),
-                child: Center(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                        Colors.deepPurple,
+                        Colors.white,
+                      ])),
+                  child: Center(
                     child: Text("Loading..."),
                   ),
-              )
+                )
               : Container(
-            padding: const EdgeInsets.all(10),
-                child: ListView.builder(
-                    itemCount: dataList.length,
-                    itemBuilder: (_, index) {
-                      return CarUI(dataList[index].image,dataList[index].name, dataList[index].tuoi,
-                          dataList[index].phone, dataList[index].address, dataList[index].diem,dataList[index].keydelete);
 
-                    }),
-              ),
+               padding: const EdgeInsets.all(15),
+                  child: ListView.builder(
+                      itemCount: dataList.length,
+                      itemBuilder: (_, index) {
+                        return Container(
+                          child: CarUI(
+                              dataList[index].image,
+                              dataList[index].name,
+                              dataList[index].tuoi,
+                              dataList[index].phone,
+                              dataList[index].address,
+                              dataList[index].diem,
+                              dataList[index].keydelete),
+                        );
+                      }),
+                ),
         ));
   }
 
-  Widget CarUI(String image, String name, String tuoi, String phone, String address,String diem, String keydelete) {
-    return Card(
-      child: Container(
-        padding: EdgeInsets.all(0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(0),
-          border: Border.all(color: Colors.yellow,width: 3),
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.lightGreenAccent,
-              Colors.white,
-            ]
-          )
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.network(
-                  image,
-                  fit: BoxFit.contain,
-                  height: 200,
-                  width: 200,
-                ),
-                Text("Tên:"+name),
-                SizedBox(width: 10,),
-                Text("Tuổi: "+tuoi),
-                SizedBox(width: 10,),
-                Text("Số điện thoại: "+phone),
-                SizedBox(width: 10,),
-                Text("Địa chỉ: "+address),
+  Widget CarUI(String image, String name, String tuoi, String phone,
+      String address, String diem, String keydelete) {
+    return Container(
+      child: Card(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(1),
+              border: Border.all(color: Colors.blue, width: 2),
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Colors.white,
+                    Colors.blueAccent,
+                  ])),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.network(
+                image,
+                fit: BoxFit.contain,
+                height: 150,
+                width: 150,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-                SizedBox(width: 10,),
-                Text("Điểm trung bình: "+diem),
-               // Text("Địa chỉ: "+address),
+                  Text("Tên: " + name,style:TextStyle(color: Colors.black, fontSize: 16),),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text("Tuổi: " + tuoi,style:TextStyle(color: Colors.black, fontSize: 16),),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text("Sdt: " + phone,style:TextStyle(color: Colors.black, fontSize: 16),),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text("Địa chỉ: " + address,style:TextStyle(color: Colors.black, fontSize: 16),),
 
-              ],
-            ),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Text("Sửa"),
-                    IconButton(
-                      icon: Icon(Icons.edit_outlined),
-                      onPressed: () {
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text("Điểm TB: " + diem,style:TextStyle(color: Colors.black, fontSize: 16),),
+                  Row(
+                    children: [
+                      Row(
+                        children: [
+                          Text("Sửa:"),
+                          IconButton(
+                            icon: Icon(Icons.edit_outlined,size: 25,color: Colors.red,),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => update(keydelete)));
+                            },
+                          ),
+                        ],
+                      ),
+                      // Text(diem),
+                      Row(
+                        children: [
+                          Text("Xoá:"),
+                          IconButton(
+                              icon: Icon(Icons.delete,size: 25,color: Colors.red,),
+                              onPressed: () {
+                                keyy= keydelete ;
+                                _showdialog();
+                                // delete();
 
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => update(keydelete)));
-                      },
-                    ),
-                  ],
-                ),
-                // Text(diem),
-                Row(
-                  children: [
-                    Text("Xoá"),
-                    IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: (){
-                        DatabaseReference reference =FirebaseDatabase.instance.reference().child("users");
-                        setState(() {
-                          reference
-                              .child(keydelete)
-                              .remove()
-                              .then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>Viewlist())));
-                        });
-                        // print(key);
-                        // delete(data);
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            )
-          ],
+                              }),
+                        ],
+                      ),
+                    ],
+                  )
+                  // Text("Địa chỉ: "+address),
+                ],
+              ),
+
+            ],
+          ),
         ),
       ),
     );
   }
+
   void search(String text) {
     DatabaseReference searchref =
-    FirebaseDatabase.instance.reference().child("users");
+        FirebaseDatabase.instance.reference().child("users");
     searchref.once().then((DataSnapshot dataSnapshot) {
       dataList.clear();
       var keys = dataSnapshot.value.keys;
@@ -217,10 +224,58 @@ TextEditingController _search = TextEditingController();
         );
 
         if (data.name.contains(text)) {
-         dataList.add(data);
+          dataList.add(data);
         }
       }
     });
   }
-}
 
+  Future<void> _showdialog() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text("Bạn có muốn xoá?"),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            content: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        delete();
+                      },
+                      child: Text("Có")),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Không")),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  void delete() {
+    DatabaseReference reference = FirebaseDatabase
+        .instance
+        .reference()
+        .child("users");
+    setState(() {
+      {
+        reference.child(keyy).remove().then(
+                (value) => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Viewlist()))
+        );
+      }
+    });
+  }
+
+}

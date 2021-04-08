@@ -55,162 +55,194 @@ class _updateState extends State<update> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-        child: Column(
-          children: [
-            Container(
-                child: urlimage != null
-                    ? Container(
-                        child: image2 == null
-                            ? Row(
-                                children: [
-                                  Image.network(
-                                    urlimage,
-                                    fit: BoxFit.contain,
-                                    height: 200,
-                                    width: 200,
-                                  ),
-                                  FlatButton(
-                                      onPressed: () {
-                                        _showDialog();
-                                        pic=false;
-                                      },
-                                      child: Icon(
-                                        Icons.add_a_photo,
-                                        color: Colors.black,
-                                        size: 50,
-                                      ))
-                                ],
-                              )
-                            : Image.file(
-                                image2,
-                                height: 200,
-                                width: 200,
-                              ),
-                      )
-                    : null),
-            Form(
-              key: keyform,
-              child: Column(
-                children: [
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        name2 = name;
-                      } else {
-                        name2 = value;
-                      }
-                    },
-                    style: TextStyle(fontSize: 20, color: Colors.amber),
-                    decoration: InputDecoration(
-                      labelText: name,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.red, width: 2),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        tuoi2 = tuoi;
-                      } else {
-                        tuoi2 = value;
-                      }
-                    },
-                    style: TextStyle(fontSize: 20, color: Colors.amber),
-                    decoration: InputDecoration(
-                      labelText: tuoi,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.red, width: 2),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        phone2 = phone;
-                      } else {
-                        phone2 = value;
-                      }
-                    },
-                    style: TextStyle(fontSize: 20, color: Colors.amber),
-                    decoration: InputDecoration(
-                      labelText: phone,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.red, width: 2),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        // address = value;
-                        address2 = address;
-                      } else {
-                        address2 = value;
-                      }
-                    },
-                    style: TextStyle(fontSize: 20, color: Colors.amber),
-                    decoration: InputDecoration(
-                      labelText: address,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.red, width: 2),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        // diem = value;
-                        diem2 = diem;
-                      } else {
-                        diem2 = value;
-                      }
-                    },
-                    style: TextStyle(fontSize: 20, color: Colors.amber),
-                    decoration: InputDecoration(
-                      labelText: diem,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.red, width: 2),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      update2();
-                    },
-                    child: Center(child: Text("Cap nhat")),
-                    color: Colors.cyanAccent,
-                  ),
-                ],
+      appBar: AppBar(
+        backgroundColor: Colors.purpleAccent,
+        title: Text("Cập nhật"),
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.lightBlueAccent,
+                  Colors.white,
+                ])),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+          child: Column(
+            children: [
+              Container(
+                  child: urlimage != null
+                      ? Container(
+                          child: image2 == null
+                              ? Row(
+                                  children: [
+                                    Image.network(
+                                      urlimage,
+                                      fit: BoxFit.contain,
+                                      height: 200,
+                                      width: 200,
+                                    ),
+                                    FlatButton(
+                                        onPressed: () {
+                                          _showDialog();
+                                          pic=false;
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Text("Đổi ảnh:"),
+                                            Icon(
+                                              Icons.add_a_photo,
+                                              color: Colors.black,
+                                              size: 50,
+                                            ),
+                                          ],
+                                        ))
+                                  ],
+                                )
+                              : Image.file(
+                                  image2,
+                                  height: 200,
+                                  width: 200,
+                                ),
+                        )
+                      : null),
+              SizedBox(
+                height: 20,
               ),
-            ),
-          ],
+              Form(
+                key: keyform,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          name2 = name;
+                        } else {
+                          name2 = value;
+                        }
+                      },
+                      style: TextStyle(fontSize: 20, color: Colors.amber),
+                      decoration: InputDecoration(
+                        hintText: "Nhập tên",
+                        labelText: name,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.red, width: 2),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          tuoi2 = tuoi;
+                        } else {
+                          tuoi2 = value;
+                        }
+                      },
+                      style: TextStyle(fontSize: 20, color: Colors.amber),
+                      decoration: InputDecoration(
+                        hintText: "Nhập tuổi",
+                        labelText: tuoi,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.red, width: 2),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          phone2 = phone;
+                        } else {
+                          phone2 = value;
+                        }
+                      },
+                      style: TextStyle(fontSize: 20, color: Colors.amber),
+                      decoration: InputDecoration(
+                        hintText: "Nhập số điện thoại",
+                        labelText: phone,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.red, width: 2),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          // address = value;
+                          address2 = address;
+                        } else {
+                          address2 = value;
+                        }
+                      },
+                      style: TextStyle(fontSize: 20, color: Colors.amber),
+                      decoration: InputDecoration(
+                        hintText: "Nhập địa chỉ",
+                        labelText: address,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.red, width: 2),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          // diem = value;
+                          diem2 = diem;
+                        } else {
+                          diem2 = value;
+                        }
+                      },
+                      style: TextStyle(fontSize: 20, color: Colors.amber),
+                      decoration: InputDecoration(
+                        hintText: "Nhập điểm trung bình",
+                        labelText: diem,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.red, width: 2),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 30,
+                      width: 150,
+                      child: RaisedButton(
+                        onPressed: () {
+                          update2();
+                        },
+                        child: Center(child: Text("Cap nhat")),
+                        color: Colors.cyanAccent,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -247,7 +279,7 @@ class _updateState extends State<update> {
       };
 
       databaseReference.child(key).update(map).then((_) {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => Viewlist(),

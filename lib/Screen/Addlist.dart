@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:managerstudent_getx/Screen/ListView.dart';
 
 class Add extends StatefulWidget {
   final File image;
@@ -68,6 +69,9 @@ class _AddState extends State<Add> {
                           height: 200,
                           width: 200,
                         ),
+                ),
+                SizedBox(
+                  height: 30,
                 ),
                 TextFormField(
                   validator: (value) {
@@ -179,7 +183,7 @@ class _AddState extends State<Add> {
                   onPressed: () {
                     if (_image == null) {
                       Fluttertoast.showToast(
-                          msg: "chon arnh",
+                          msg: "chọn ảnh",
                           gravity: ToastGravity.CENTER,
                           toastLength: Toast.LENGTH_LONG,
                           timeInSecForIosWeb: 3);
@@ -200,6 +204,7 @@ class _AddState extends State<Add> {
 
   Future<void> upload() async {
     if (formKey.currentState.validate()) {
+
       DatabaseReference databaseReference =
           FirebaseDatabase.instance.reference().child("users");
       Reference _refrence = FirebaseStorage.instance.ref().child("users").child(
@@ -217,8 +222,9 @@ class _AddState extends State<Add> {
       map["phone"] = phone;
       map["address"] = address;
       map["diem"] = diem;
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Viewlist(),));
       databaseReference.child(upload).set(map).then((_) {
-        Navigator.pop(context);
+
       });
     }
   }
