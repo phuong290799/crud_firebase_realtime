@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:managerstudent_getx/Screen/ListView.dart';
+import 'package:managerstudent_getx/Screen/viewStudent.dart';
 
 class update extends StatefulWidget {
   String keydelete;
@@ -259,8 +259,7 @@ class _updateState extends State<update> {
       if(pic==false){
       Reference _refrence = FirebaseStorage.instance.ref().child("users").child(
           new DateTime.now().microsecondsSinceEpoch.toString() +
-              "." +
-              image2.path);
+              "." + image2.path);
       UploadTask uploadTask = _refrence.putFile(image2);
       var imageUrl = await (await uploadTask).ref.getDownloadURL();
       urlImage2 = imageUrl.toString();}
@@ -279,11 +278,7 @@ class _updateState extends State<update> {
       };
 
       databaseReference.child(key).update(map).then((_) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Viewlist(),
-            ));
+
       });
     }
   }

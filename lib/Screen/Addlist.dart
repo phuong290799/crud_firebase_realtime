@@ -4,14 +4,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:managerstudent_getx/Screen/ListView.dart';
+import 'package:managerstudent_getx/Screen/Hompage.dart';
+import 'package:managerstudent_getx/Screen/viewStudent.dart';
 
 class Add extends StatefulWidget {
-  final File image;
-  Add({Key key, @required this.image}) : super(key: key);
-  @override
-  _AddState createState() => _AddState(image);
+  _AddState createState() => _AddState();
 }
 
 class _AddState extends State<Add> {
@@ -19,14 +18,16 @@ class _AddState extends State<Add> {
   final picker = ImagePicker();
   String name, tuoi, phone, address, diem;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  _AddState(this._image);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(""
-            "Thêm sinh viên",style: TextStyle(fontSize: 20,color: Colors.white),),
+        title: Text(
+          ""
+          "Thêm sinh viên",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -54,7 +55,7 @@ class _AddState extends State<Add> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text("                      Thêm ảnh"),
+                              Text("Thêm ảnh"),
                               Center(
                                 child: Icon(
                                   Icons.add_a_photo,
@@ -189,6 +190,7 @@ class _AddState extends State<Add> {
                           timeInSecForIosWeb: 3);
                     } else {
                       upload();
+                      Get.to(MyHomePage());
                     }
                   },
                   child: Center(child: Text("Thêm sinh viên")),
@@ -204,7 +206,6 @@ class _AddState extends State<Add> {
 
   Future<void> upload() async {
     if (formKey.currentState.validate()) {
-
       DatabaseReference databaseReference =
           FirebaseDatabase.instance.reference().child("users");
       Reference _refrence = FirebaseStorage.instance.ref().child("users").child(
@@ -222,10 +223,7 @@ class _AddState extends State<Add> {
       map["phone"] = phone;
       map["address"] = address;
       map["diem"] = diem;
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Viewlist(),));
-      databaseReference.child(upload).set(map).then((_) {
-
-      });
+      databaseReference.child(upload).set(map).then((_) {});
     }
   }
 

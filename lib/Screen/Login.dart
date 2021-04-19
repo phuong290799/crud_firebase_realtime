@@ -111,7 +111,7 @@ class _LoginState extends State<Login> {
     _fireBaseAuth.signInWithEmailAndPassword(email: user, password: pass)
         .then((_) {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Hompage()));
+          MaterialPageRoute(builder: (context) => MyHomePage()));
     });
   }
   void _dangky(){
