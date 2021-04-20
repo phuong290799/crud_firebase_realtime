@@ -1,4 +1,3 @@
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,12 +16,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   final List<StudentObj> dataList = [];
   @override
   void initState() {
     super.initState();
-    FirebaseDatabase.instance.reference().child("users").once().then((DataSnapshot dataSnapshot) {
+    FirebaseDatabase.instance
+        .reference()
+        .child("users")
+        .once()
+        .then((DataSnapshot dataSnapshot) {
       dataList.clear();
       var keys = dataSnapshot.value.keys;
       var values = dataSnapshot.value;
@@ -34,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
           values[key]["tuoi"],
           values[key]["phone"],
           values[key]["address"],
-          values[key]["diem"],
+          values[key]["gioithieu"],
           key,
         );
         dataList.add(data);
@@ -47,7 +49,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
@@ -55,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: OpenDrawer(),
       ),
       appBar: AppBar(
-        elevation: 0,
+        elevation: 0.5,
         title: Text('Trang chủ', style: AppThemes.Text20Bold),
         backgroundColor: AppColors.Scaffor,
         leading: InkWell(
@@ -66,12 +67,16 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: <Widget>[
           InkWell(
-            onTap: () {
-            },
-            child: Image.asset('assets/images/admin.png',height: 35,width: 35,),
+            onTap: () {},
+            child: Image.asset(
+              'assets/images/admin.png',
+              height: 35,
+              width: 35,
+            ),
           ),
-          SizedBox(width: 20,),
-
+          SizedBox(
+            width: 20,
+          ),
         ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(140),
@@ -93,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                   height: 52,
                   decoration: BoxDecoration(
-                    color:AppColors.Scaffor,
+                    color: AppColors.Scaffor,
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
@@ -105,13 +110,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   child: Row(
                     children: [
-                      SizedBox(width: 20,),
+                      SizedBox(
+                        width: 20,
+                      ),
                       Icon(Icons.search),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Container(
                         height: 52,
                         width: 250,
-
                         child: Center(
                           child: TextField(
                             decoration: InputDecoration.collapsed(
@@ -122,7 +130,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               search(text);
                             },
                           ),
-
                         ),
                       ),
                       Expanded(child: SizedBox()),
@@ -134,15 +141,17 @@ class _MyHomePageState extends State<MyHomePage> {
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(10),
                             bottomRight: Radius.circular(10),
-
                           ),
                         ),
-
                         child: Icon(Icons.person_search_outlined),
                       ),
+
                     ],
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 20,
               ),
             ],
           ),
@@ -151,104 +160,113 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-               Container(
-                 padding: EdgeInsets.all(10),
-                 height: 500,
-              child: dataList.length == 0
-                  ? Container(
+       //   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: 20,),
                 child: Center(
-                  child: Text("Loading..."),
+                  child: Text(
+                    "Danh sách sinh viên",
+                    style: AppThemes.Text20,
+                  ),
                 ),
-              )
-                  : Container(
-
-                padding: const EdgeInsets.all(15),
-                child: ListView.builder(
-                    itemCount: dataList.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        child: CardStudent(
-                           image: dataList[index].image,
-                           name: dataList[index].name,
-                            tuoi:dataList[index].tuoi,
-                            phone:dataList[index].phone,
-                            address:dataList[index].address,
-                           diem: dataList[index].diem,
-                            keyy: dataList[index].key),
-                      );
-                    }),
               ),
-               ),
-
-                Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                            Colors.greenAccent,
-                            Colors.yellow,
-                          ]),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.yellow, width: 1),
-                    ),
-                    height: 100,
-                    child: TextButton(
-                      child: Center(
-                        child: Text(
-                          "Thêm sinh viên",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
+              Container(
+                padding: EdgeInsets.all(20),
+                height: 400,
+                child: dataList.length == 0
+                    ? Container(
+                        child: Center(
+                          child: Text("Loading..."),
                         ),
+                      )
+                    : Container(
+                        padding: EdgeInsets.only(left:5,right: 5),
+                        decoration: BoxDecoration(
+                            color: AppColors.Scaffor,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 20,
+                                offset: Offset(4, 8),
+                                color: AppColors.gray,
+                              )
+                            ]),
+                        child: ListView.builder(
+                            itemCount: dataList.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 5.0),
+                                child: CardStudent(
+                                    image: dataList[index].image,
+                                    name: dataList[index].name,
+                                    tuoi: dataList[index].tuoi,
+                                    phone: dataList[index].phone,
+                                    address: dataList[index].address,
+                                    gioithieu: dataList[index].gioithieu,
+                                    keyy: dataList[index].key),
+                              );
+                            }),
                       ),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Add()));
-                      },
-                    )),
-                SizedBox(
-                  height: 15,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 50,right: 50),
+                child: RaisedButton(
+                  onPressed: () {
+                    Get.to(()=>Add());
+                  },
+                  color: AppColors.BACKGROUND,
+                  child: Container(
+                    height: 40,
+                    child: Center(
+                      child: Text(
+                        "Thêm sinh viên",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(color: AppColors.BACKGROUND,width: 1)
+                    ),
+                  ),
                 ),
-                SizedBox(
-                  height: 100,
-                ),
-              ],
-            ),
+
+            ],
           ),
         ),
       ),
     );
   }
-void search(String text) {
-  DatabaseReference searchref =
-      FirebaseDatabase.instance.reference().child("users");
-  searchref.once().then((DataSnapshot dataSnapshot) {
-    dataList.clear();
-    var keys = dataSnapshot.value.keys;
-    var values = dataSnapshot.value;
-    for (var key in keys) {
-      StudentObj data = new StudentObj(
-        values[key]["image"],
-        values[key]["name"],
-        values[key]["tuoi"],
-        values[key]["phone"],
-        values[key]["address"],
-        values[key]["diem"],
-        key,
-      );
 
-      if (data.name.contains(text)) {
-        dataList.add(data);
+  void search(String text) {
+    DatabaseReference searchref =
+        FirebaseDatabase.instance.reference().child("users");
+    searchref.once().then((DataSnapshot dataSnapshot) {
+      dataList.clear();
+      var keys = dataSnapshot.value.keys;
+      var values = dataSnapshot.value;
+      for (var key in keys) {
+        StudentObj data = new StudentObj(
+          values[key]["image"],
+          values[key]["name"],
+          values[key]["tuoi"],
+          values[key]["phone"],
+          values[key]["address"],
+          values[key]["gioithieu"],
+          key,
+        );
+
+        if (data.name.contains(text)) {
+          dataList.add(data);
+        }
       }
-    }
-  });
-}
-
+    });
+  }
 }

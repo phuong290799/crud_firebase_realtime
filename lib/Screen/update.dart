@@ -22,8 +22,8 @@ class _updateState extends State<update> {
   File image2;
   String key;
   String urlImage2;
-  String urlimage, name, tuoi, phone, address, diem;
-  String name2, tuoi2, phone2, address2, diem2;
+  String urlimage, name, tuoi, phone, address, gioithieu;
+  String name2, tuoi2, phone2, address2, gioithieu2;
   final GlobalKey<FormState> keyform = GlobalKey<FormState>();
   @override
   void initState() {
@@ -41,9 +41,9 @@ class _updateState extends State<update> {
         tuoi = values["tuoi"];
         phone = values["phone"];
         address = values["address"];
-        diem = values["diem"];
+        gioithieu = values["gioithieu"];
         key;
-        // values[key]["diem"],
+        // values[key]["gioithieu"],
 
         //  print(data.key);
       }
@@ -205,16 +205,16 @@ class _updateState extends State<update> {
                     TextFormField(
                       validator: (value) {
                         if (value.isEmpty) {
-                          // diem = value;
-                          diem2 = diem;
+                          // gioithieu = value;
+                          gioithieu2 = gioithieu;
                         } else {
-                          diem2 = value;
+                          gioithieu2 = value;
                         }
                       },
                       style: TextStyle(fontSize: 20, color: Colors.amber),
                       decoration: InputDecoration(
                         hintText: "Nhập điểm trung bình",
-                        labelText: diem,
+                        labelText: gioithieu,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: BorderSide(color: Colors.red, width: 2),
@@ -274,7 +274,7 @@ class _updateState extends State<update> {
         'tuoi': tuoi2,
         'phone': phone2,
         "address": address2,
-        'diem': diem2,
+        'gioithieu': gioithieu2,
       };
 
       databaseReference.child(key).update(map).then((_) {

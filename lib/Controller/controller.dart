@@ -26,7 +26,7 @@ class Controller extends GetxController{
      }
    });
 
- }
+ }////no
 
 
 
