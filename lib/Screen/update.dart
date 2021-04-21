@@ -4,8 +4,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:managerstudent_getx/Screen/Hompage.dart';
 import 'package:managerstudent_getx/Screen/viewStudent.dart';
+import 'package:managerstudent_getx/Theme/colors.dart';
+import 'package:managerstudent_getx/Theme/style.dart';
 
 class update extends StatefulWidget {
   String keydelete;
@@ -56,20 +60,37 @@ class _updateState extends State<update> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purpleAccent,
-        title: Text("Cập nhật"),
+        automaticallyImplyLeading: false,
+        elevation: 1,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                height: 50,
+                width: 50,
+                child: Icon(
+                  Icons.arrow_back_ios_rounded,
+                  color: AppColors.coloricon,
+                ),
+                decoration: BoxDecoration(
+                    color: AppColors.BACKGROUND,
+                    borderRadius: BorderRadius.circular(15)),
+              ),
+            ),
+            Text("Update", style: AppThemes.Text20Medium),
+            SizedBox(
+              width: 50,
+            ),
+          ],
+        ),
+        backgroundColor: AppColors.Scaffor,
       ),
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Colors.lightBlueAccent,
-                  Colors.white,
-                ])),
+
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
           child: Column(
@@ -120,15 +141,14 @@ class _updateState extends State<update> {
                     TextFormField(
                       validator: (value) {
                         if (value.isEmpty) {
-                          name2 = name;
+                          name2= name;
                         } else {
                           name2 = value;
                         }
                       },
-                      style: TextStyle(fontSize: 20, color: Colors.amber),
+                      style: AppThemes.Text14,
                       decoration: InputDecoration(
-                        hintText: "Nhập tên",
-                        labelText: name,
+                        labelText: "Họ tên: $name",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: BorderSide(color: Colors.red, width: 2),
@@ -139,17 +159,17 @@ class _updateState extends State<update> {
                       height: 10,
                     ),
                     TextFormField(
+                      keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value.isEmpty) {
-                          tuoi2 = tuoi;
+                          tuoi2= tuoi;
                         } else {
                           tuoi2 = value;
                         }
                       },
-                      style: TextStyle(fontSize: 20, color: Colors.amber),
+                      style: AppThemes.Text14,
                       decoration: InputDecoration(
-                        hintText: "Nhập tuổi",
-                        labelText: tuoi,
+                        labelText: "Tuổi: $tuoi",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: BorderSide(color: Colors.red, width: 2),
@@ -160,17 +180,17 @@ class _updateState extends State<update> {
                       height: 10,
                     ),
                     TextFormField(
+                      keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value.isEmpty) {
-                          phone2 = phone;
+                          phone2=phone;
                         } else {
                           phone2 = value;
                         }
                       },
-                      style: TextStyle(fontSize: 20, color: Colors.amber),
+                      style: AppThemes.Text14,
                       decoration: InputDecoration(
-                        hintText: "Nhập số điện thoại",
-                        labelText: phone,
+                        labelText: 'Số điện thoại: $phone',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: BorderSide(color: Colors.red, width: 2),
@@ -183,16 +203,14 @@ class _updateState extends State<update> {
                     TextFormField(
                       validator: (value) {
                         if (value.isEmpty) {
-                          // address = value;
-                          address2 = address;
+                          address2=address;
                         } else {
                           address2 = value;
                         }
                       },
-                      style: TextStyle(fontSize: 20, color: Colors.amber),
+                      style: AppThemes.Text14,
                       decoration: InputDecoration(
-                        hintText: "Nhập địa chỉ",
-                        labelText: address,
+                        labelText: "Địa chỉ: $address",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: BorderSide(color: Colors.red, width: 2),
@@ -200,32 +218,31 @@ class _updateState extends State<update> {
                       ),
                     ),
                     SizedBox(
+                      height: 30,
+                    ),
+                    Text("Giới thiệu",style: AppThemes.Text18,),
+                    SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          // gioithieu = value;
-                          gioithieu2 = gioithieu;
-                        } else {
-                          gioithieu2 = value;
-                        }
-                      },
-                      style: TextStyle(fontSize: 20, color: Colors.amber),
-                      decoration: InputDecoration(
-                        hintText: "Nhập điểm trung bình",
-                        labelText: gioithieu,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: Colors.red, width: 2),
+                    Container(
+                      height: 100,
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            gioithieu2="Vui tính" ;
+                          } else {
+                            gioithieu2 = value;
+                          }
+                        },
+                        style: AppThemes.Text14,
+                        decoration: InputDecoration(
+                          labelText: "Giới thiệu: $gioithieu",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(color: Colors.red, width: 2),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 10,
                     ),
                     Container(
                       height: 30,
@@ -233,6 +250,7 @@ class _updateState extends State<update> {
                       child: RaisedButton(
                         onPressed: () {
                           update2();
+                          Get.to(()=>MyHomePage());
                         },
                         child: Center(child: Text("Cap nhat")),
                         color: Colors.cyanAccent,

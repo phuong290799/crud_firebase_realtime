@@ -186,10 +186,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         padding: EdgeInsets.only(left:5,right: 5),
                         decoration: BoxDecoration(
                             color: AppColors.Scaffor,
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(5),
                             boxShadow: [
                               BoxShadow(
-                                blurRadius: 20,
+                                blurRadius: 10,
                                 offset: Offset(4, 8),
                                 color: AppColors.gray,
                               )
@@ -197,18 +197,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: ListView.builder(
                             itemCount: dataList.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 5.0),
-                                child: CardStudent(
-                                    image: dataList[index].image,
-                                    name: dataList[index].name,
-                                    tuoi: dataList[index].tuoi,
-                                    phone: dataList[index].phone,
-                                    address: dataList[index].address,
-                                    gioithieu: dataList[index].gioithieu,
-                                    keyy: dataList[index].key),
-                              );
+                              return CardStudent(
+                                  image: dataList[index].image,
+                                  name: dataList[index].name,
+                                  tuoi: dataList[index].tuoi,
+                                  phone: dataList[index].phone,
+                                  address: dataList[index].address,
+                                  gioithieu: dataList[index].gioithieu,
+                                  keyy: dataList[index].key);
                             }),
                       ),
               ),

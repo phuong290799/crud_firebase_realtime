@@ -63,82 +63,161 @@ class _ViewStudentState extends State<ViewStudent> {
         child: Container(
           padding: EdgeInsets.fromLTRB(20, 30, 20, 10),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(
-                widget.image,
-                fit: BoxFit.contain,
-                height: 150,
-                width: 150,
+              Center(
+                child: Image.network(
+                  widget.image,
+                  fit: BoxFit.contain,
+                  height: 150,
+                  width: 150,
+                ),
               ),
               SizedBox(height: 20,),
-              Text(
-                "Tên: " + widget.name,
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              ),
-              Text(
-                "Tuổi: " + widget.tuoi,
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              ),
+              Center(
+                child: Container(
+                  height: 150,
+                  width: 350,
+                  decoration: BoxDecoration(
 
-              Text(
-                "Sdt: " + widget.phone,
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              ),
+                    color: AppColors.Scaffor,
+                    borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 20,
+                            offset: Offset(4,4),
+                            color: AppColors.gray
+                        )
+                      ]
+                  ),
+                  padding: EdgeInsets.only(left: 50,top: 20,bottom: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Tên: " + widget.name,
+                        style: TextStyle(color: Colors.black, fontSize: 16),
+                      ),
 
-              Text(
-                "Địa chỉ: " + widget.address,
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              ),
+                Text(
+                  "Tuổi: " + widget.tuoi,
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                ),
 
-              SizedBox(
-                width: 10,
+                Text(
+                  "Sdt: " + widget.phone,
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                ),
+
+                Text(
+                  "Địa chỉ: " + widget.address,
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                ),
+                    ],
+                  ),
+                ),
               ),
           SizedBox(
             height: 30,
           ),
-          Container(
-            child: Text(
-              "Giới thiệu:",
-              style: AppThemes.Text18,
+          Center(
+            child: Container(
+              width: 100,
+              height: 30,
+              decoration: BoxDecoration(
+                color: AppColors.BACKGROUND,
+                borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                  BoxShadow(
+                  blurRadius: 10,
+                  offset: Offset(4,4),
+                  color: AppColors.gray
+              )
+                ]
+              ),
+              child: Center(
+                child: Text(
+                  "Giới thiệu:",
+                  style: AppThemes.Text18,
+                ),
+              ),
             ),
           ),
-          Container(
-              height: 200,
-              child: Text(
-                widget.gioithieu,
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              )),
-          Container(
-            child: Row(
-              children: [
-                Text("Sửa:"),
-                IconButton(
-                  icon: Icon(
-                    Icons.edit_outlined,
-                    size: 25,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => update(widget.keyy)));
-                  },
+          SizedBox(height: 10,),
+          Center(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              width: 350,
+
+                height: 100,
+                decoration: BoxDecoration(
+                  color: AppColors.Scaffor,
+                  borderRadius: BorderRadius.circular(10),
+                 // border: Border.all(color: AppColors.BACKGROUND),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 10,
+                          offset: Offset(4,4),
+                          color: AppColors.gray
+                      )
+                    ]
                 ),
-                // Text(gioithieu),
-                Text("Xoá:"),
-                IconButton(
+                child: Text(
+                  widget.gioithieu,
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                )),
+          ),
+          SizedBox(height: 30,),
+          Center(
+            child: Container(
+              width: 350,
+              decoration: BoxDecoration(
+                color: AppColors.BACKGROUND,
+                borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 10,
+                        offset: Offset(4,4),
+                        color: AppColors.gray
+                    )
+                  ]
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(width: 20,),
+                  Text("Sửa:",style: AppThemes.Text16Medium,),
+                  IconButton(
                     icon: Icon(
-                      Icons.delete,
-                      size: 25,
+                      Icons.edit_outlined,
+                      size: 28,
                       color: Colors.red,
                     ),
                     onPressed: () {
-                      _showdialog();
-                      // delete();
-                    }),
-              ],
+                      Get.to(()=>update(widget.keyy));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => update(widget.keyy)));
+                    },
+                  ),
+                  SizedBox(width: 30,),
+                  // Text(gioithieu),
+                  Text("Xoá:",style: AppThemes.Text16Medium,),
+                  IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        size: 28,
+                        color: Colors.red,
+                      ),
+                      onPressed: () {
+                        _showdialog();
+                        // delete();
+                      }),
+                  SizedBox(width: 20,),
+                ],
+              ),
             ),
           ),
 

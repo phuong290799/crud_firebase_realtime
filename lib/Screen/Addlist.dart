@@ -113,6 +113,7 @@ class _AddState extends State<Add> {
                   height: 10,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Nhập tuổi';
@@ -133,6 +134,7 @@ class _AddState extends State<Add> {
                   height: 10,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Nhập số điện thoại';

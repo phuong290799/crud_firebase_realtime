@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:managerstudent_getx/Screen/Hompage.dart';
 import 'package:managerstudent_getx/Screen/Login.dart';
+import 'package:managerstudent_getx/Screen/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,8 +15,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Quản lý sinh viên',
-      //home: Login(),
-      home: MyHomePage(),
+      home: Splash(),
+      //home: MyHomePage(),
+
     );
   }
 }

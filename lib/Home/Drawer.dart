@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:managerstudent_getx/Screen/Login.dart';
 import 'package:managerstudent_getx/Theme/colors.dart';
 import 'package:managerstudent_getx/Theme/style.dart';
 
@@ -100,7 +102,7 @@ class OpenDrawer extends StatelessWidget {
                 )
               ],
             ),
-            onTap: () {},
+            onTap: () {Get.to(()=>Login());},
           ),
         ],
       ),
