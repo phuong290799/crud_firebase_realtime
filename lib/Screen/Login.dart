@@ -56,11 +56,13 @@ class _LoginState extends State<Login> {
         width: MediaQuery.of(context).size.width,
         color: AppColors.Scaffor,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(30, 250, 30, 0),
+          padding: const EdgeInsets.fromLTRB(30, 200, 30, 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Text("Tên đăng nhập: phuong@gmail.com\nPass: 123321"),
+              SizedBox(height: 20,),
               Container(
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
