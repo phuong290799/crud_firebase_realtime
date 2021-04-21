@@ -6,11 +6,13 @@ import 'package:get/get.dart';
 import 'package:managerstudent_getx/Controller/controller.dart';
 import 'package:managerstudent_getx/Models/studentObj.dart';
 import 'package:managerstudent_getx/Screen/Hompage.dart';
+import 'package:managerstudent_getx/Screen/Login.dart';
 import 'package:managerstudent_getx/Screen/update.dart';
 import 'package:managerstudent_getx/Theme/colors.dart';
 import 'package:managerstudent_getx/Theme/style.dart';
 
 class ViewStudent extends StatefulWidget {
+
   String image, name, tuoi, phone, address, gioithieu, keyy;
   ViewStudent(
       {this.image,
@@ -26,6 +28,7 @@ class ViewStudent extends StatefulWidget {
 }
 
 class _ViewStudentState extends State<ViewStudent> {
+  Controller _controllerView = Get.put(Controller());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,11 +198,12 @@ class _ViewStudentState extends State<ViewStudent> {
                       color: Colors.red,
                     ),
                     onPressed: () {
-                      Get.to(()=>update(widget.keyy));
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => update(widget.keyy)));
+                      if(_controllerView.IsLogin){
+                        Get.to(()=>update(widget.keyy));
+                      }else{
+                        showdialoglogin();
+                      }
+
                     },
                   ),
                   SizedBox(width: 30,),
@@ -212,7 +216,12 @@ class _ViewStudentState extends State<ViewStudent> {
                         color: Colors.red,
                       ),
                       onPressed: () {
-                        _showdialog();
+                        if(_controllerView.IsLogin){
+                          _showdialog();
+                        }else{
+                          showdialoglogin();
+                        }
+
                         // delete();
                       }),
                   SizedBox(width: 20,),
@@ -268,5 +277,36 @@ class _ViewStudentState extends State<ViewStudent> {
         reference.child(widget.keyy).remove();
       }
     });
+  }
+
+  Future<void> showdialoglogin() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text("     Bạn phải đăng nhập trước!\nBạn có muốn quay lại trang login",style: AppThemes.Text16Medium,),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            content: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Get.off(Login());
+                      },
+                      child: Text("Có")),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Không")),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

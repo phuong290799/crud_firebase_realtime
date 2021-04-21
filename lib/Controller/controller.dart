@@ -3,6 +3,10 @@ import 'package:get/get.dart';
 import 'package:managerstudent_getx/Models/studentObj.dart';
 
 class Controller extends GetxController{
+  bool IsLogin = false;
+
+
+
   final List<StudentObj> dataList = [];
 
  ReadStudent(){

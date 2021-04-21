@@ -4,111 +4,153 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:managerstudent_getx/Theme/colors.dart';
+import 'package:managerstudent_getx/Theme/style.dart';
 class Dangky extends StatefulWidget {
   @override
   _DangkyState createState() => _DangkyState();
 }
 
 class _DangkyState extends State<Dangky> {
+  String user, pass;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   FirebaseAuth _firebaseAuth =FirebaseAuth.instance;
-//  TextEditingController _name = TextEditingController();
-  TextEditingController _pass = TextEditingController();
-  TextEditingController _user = TextEditingController();
-  //TextEditingController _phone = TextEditingController();
-
-
-
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Đăng ký'),
+        automaticallyImplyLeading: false,
+        elevation: 1,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                height: 50,
+                width: 50,
+                child: Icon(
+                  Icons.arrow_back_ios_rounded,
+                  color: AppColors.coloricon,
+                ),
+                decoration: BoxDecoration(
+                    color: AppColors.BACKGROUND,
+                    borderRadius: BorderRadius.circular(15)),
+              ),
+            ),
+            Text("Đăng ký", style: AppThemes.Text20Medium),
+            SizedBox(
+              width: 50,
+            ),
+          ],
+        ),
+        backgroundColor: AppColors.Scaffor,
       ),
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                  colors: [
-                    Colors.deepPurpleAccent,
-                    Colors.white,
-                  ]
-              )
-          ),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(30, 200, 30, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: 60,
-                  width: 250,
-                  child: TextField(
-                    controller: _user,
-                    obscureText: false,
-                    decoration: InputDecoration(
-                        labelText: "Tên đăng nhập",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          borderSide: BorderSide(color: Colors.black,width: 5),
-                        )
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: AppColors.Scaffor,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(30, 250, 30, 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: AppColors.Scaffor,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 20,
+                        offset: Offset(4, 8),
+                        color: AppColors.gray,
+                      )
+                    ]),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Nhập tài khoản: ...@gmail.com';
+                          } else {
+                            user = value;
+                          }
+                        },
+                        style: AppThemes.Text14,
+                        decoration: InputDecoration(
+                          labelText: "Tên đăng nhập: ",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(color: Colors.red, width: 2),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        obscureText: true,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Nhập pass';
+                          } else {
+                            pass = value;
+                          }
+                        },
+                        style: AppThemes.Text14,
+                        decoration: InputDecoration(
+                          labelText: "Mật khẩu: ",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(color: Colors.red, width: 2),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+
+              RaisedButton(
+                onPressed: _dangky2,
+                color: AppColors.BACKGROUND,
+                child: Container(
+                  height: 40,
+                  child: Center(
+                    child: Text(
+                      "Đăng ký",
+                      style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 30,
-                ),
-                Container(
-                    height: 60,
-                    width: 250,
-                    child: TextField(
-                      controller: _pass,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          labelText: "Mật khẩu",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            borderSide: BorderSide(color: Colors.black,width: 5),
-                          )
-                      ),
-
-                    )
-
-
-                ),
-                SizedBox(
-                  height: 60,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-
-
-                    RaisedButton(onPressed: _dangky2,
-                      child: Text("    Đăng ký   ",style: TextStyle(fontSize: 20,color: Colors.black),),
-                      color: Colors.amberAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide:
+                    BorderSide(color: AppColors.BACKGROUND, width: 1)),
+              ),
+            ],
           ),
+        ),
         ),
       );
     }
-  void _dangky2(){
-    String user= _user.text;
-    String pass= _pass.text;
-
-    signup(user, pass);
-    Navigator.pop(context);
+  void _dangky2() {
+    if (formKey.currentState.validate()) {
+      signup(user, pass);
+    Get.back();
+    }
   }
   void signup(String user, String pass) {
     _firebaseAuth

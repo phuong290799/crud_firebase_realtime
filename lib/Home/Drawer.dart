@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:managerstudent_getx/Controller/controller.dart';
+import 'package:managerstudent_getx/Screen/Addlist.dart';
 import 'package:managerstudent_getx/Screen/Login.dart';
+import 'package:managerstudent_getx/Screen/splash.dart';
 import 'package:managerstudent_getx/Theme/colors.dart';
 import 'package:managerstudent_getx/Theme/style.dart';
 
 class OpenDrawer extends StatelessWidget {
+  Controller controllerDrawer = Get.put(Controller());
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -17,13 +21,21 @@ class OpenDrawer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset("assets/images/image1.jpg",height: 75,width: 75,),
+                    Container(
+                      width: 70,height: 70,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Image.asset("assets/images/admin.png"),
+
+                    ),
+                    SizedBox(height: 10,),
                     Text(
-                      "admin",
+                      "Admin",
                       style: AppThemes.Text16Medium,
                     ),
                     Text(
-                      "phuong29071999.com",
+                      "phuong@.com",
                       style: AppThemes.Text14Medium,
                     ),
                   ],
@@ -57,7 +69,9 @@ class OpenDrawer extends StatelessWidget {
                 )
               ],
             ),
-            onTap: () {},
+            onTap: () {
+              Get.to(()=>Add());
+            },
           ),
           ListTile(
             title: Row(
@@ -102,7 +116,9 @@ class OpenDrawer extends StatelessWidget {
                 )
               ],
             ),
-            onTap: () {Get.to(()=>Login());},
+            onTap: () {
+              controllerDrawer.IsLogin = false;
+              Get.off(()=>Splash());},
           ),
         ],
       ),
