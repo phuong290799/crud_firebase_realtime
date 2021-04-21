@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:managerstudent_getx/Controller/controller.dart';
 import 'package:managerstudent_getx/Screen/Addlist.dart';
+import 'package:managerstudent_getx/Screen/Hompage.dart';
 import 'package:managerstudent_getx/Screen/Login.dart';
 import 'package:managerstudent_getx/Screen/splash.dart';
 import 'package:managerstudent_getx/Theme/colors.dart';
 import 'package:managerstudent_getx/Theme/style.dart';
 
 class OpenDrawer extends StatelessWidget {
+
+
   Controller controllerDrawer = Get.put(Controller());
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,7 @@ class OpenDrawer extends StatelessWidget {
                 )
               ],
             ),
-            onTap: () {},
+            onTap: () {Get.to(MyHomePage());},
           ),
           ListTile(
             title: Row(
@@ -70,7 +73,40 @@ class OpenDrawer extends StatelessWidget {
               ],
             ),
             onTap: () {
-              Get.to(()=>Add());
+              if(controllerDrawer.IsLogin){
+                print("login");
+                print(controllerDrawer.IsLogin);
+                Get.to(()=>Add());
+              }else{
+                  return showDialog(
+                      context: context,
+                      builder: (BuildContext) {
+                        return AlertDialog(
+                          backgroundColor: Colors.white,
+                          title: Text("     Bạn phải đăng nhập trước!\nBạn có muốn quay lại trang login",style: AppThemes.Text16Medium,),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          content: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                    onPressed: () {
+                                      Get.off(Login());
+                                    },
+                                    child: Text("Có")),
+                                TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text("Không")),
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+              }
             },
           ),
           ListTile(

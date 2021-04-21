@@ -293,7 +293,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Text("Có")),
                   TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Get.back();
                       },
                       child: Text("Không")),
                 ],
